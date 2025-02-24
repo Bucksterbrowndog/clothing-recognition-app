@@ -4,11 +4,8 @@ import io
 import base64
 import streamlit as st
 
+# Function to process image and identify clothing
 def identify_clothing(image):
-    """
-    Prototype function to analyze an image and identify clothing items.
-    Uses a placeholder API for now.
-    """
     api_url = "https://api.clothingrecognition.com/analyze"  # Placeholder API
     headers = {"Authorization": "Bearer YOUR_API_KEY"}
 
@@ -27,12 +24,14 @@ def identify_clothing(image):
 # Streamlit UI
 def main():
     st.title("Clothing Recognition App")
-    st.write("Upload an image to identify clothing items and find where to buy them.")
+    st.write("Point your camera at clothing to identify brands and where to buy them.")
 
-    uploaded_file = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
-    if uploaded_file:
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image", use_column_width=True)
+    # Enable live camera input
+    camera_image = st.camera_input("Take a picture of the clothing")
+
+    if camera_image:
+        image = Image.open(camera_image)
+        st.image(image, caption="Captured Image", use_column_width=True)
 
         st.write("Processing...")
         clothing_data = identify_clothing(image)
